@@ -28,14 +28,20 @@ public:
 
 	GaussMatrix(size_t);
 
+	~GaussMatrix();
+
 	void makeUpperTriangular();
 
-	void printUpperTriangular(ostream&);
+	void printUpperTriangular(ostream&) const;
 
 	void getSolution();
 
-	void printSolution(ostream&);
+	void printSolution(ostream&) const;
+
+	void calculate() const;
 
 	friend istream& operator>>(istream& in, GaussMatrix& obj);
+
+	friend ostream& operator<<(ostream& out, const GaussMatrix& obj);
 
 };
