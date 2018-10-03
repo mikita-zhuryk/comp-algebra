@@ -1,20 +1,20 @@
 #pragma once
-#include "IndexComparator.h"
 #include <iostream>
-#include <vector>
+#include "../Matrix/Matrix.h"
+#include "../Vector/Vector.h"
 #define OUTPUT_WIDTH 15
 #define DECIMAL_PRECISION 9
 
 using namespace std;
 
 typedef unsigned int UINT;
-typedef vector<pair<size_t, double>> indexedVector;
 
 class GaussMatrix {
 
-	double** values;
-	indexedVector b;
-	indexedVector x;
+	Matrix<double> A;
+	Vector<double> b;
+	Vector<double> x;
+	double det;
 	size_t n;
 	UINT swapCount;
 	
@@ -38,7 +38,9 @@ public:
 
 	void printSolution(ostream&) const;
 
-	void calculate() const;
+	void deficiency(ostream& out) const;
+
+	double determinant() const;
 
 	friend istream& operator>>(istream& in, GaussMatrix& obj);
 

@@ -12,9 +12,8 @@ void GaussMatrix::setDimensions(size_t dim) {
 
 void GaussMatrix::swapRows(size_t k, size_t l) {
 	if (k != l) {
-		swap(values[k], values[l]);
+		swap(A[k], A[l]);
 		swap(b[k], b[l]);
-		swap(x[k].first, x[l].first);
 		swapCount++;
 	}
 }
@@ -22,7 +21,7 @@ void GaussMatrix::swapRows(size_t k, size_t l) {
 size_t GaussMatrix::findMaxInRows(UINT step) {
 	size_t max_index = step;
 	for (size_t i = step + 1; i < n; ++i) {
-		if (abs(values[i][step]) > abs(values[max_index][step])) {
+		if (abs(A[i][step]) > abs(A[max_index][step])) {
 			max_index = i;
 		}
 	}
@@ -31,45 +30,29 @@ size_t GaussMatrix::findMaxInRows(UINT step) {
 
 GaussMatrix::GaussMatrix(size_t dim) {
 	setDimensions(dim);
-	values = new double*[n];
-	for (size_t i = 0; i < n; ++i) {
-		values[i] = new double[n];
-	}
-	b.resize(n);
-	x.resize(n);
-	for (size_t i = 0; i < n; ++i) {
-		b[i].first = i;
-		b[i].second = 0;
-		x[i].first = i;
-		x[i].second = 0;
-		for (size_t j = 0; j < n; ++j) {
-			values[i][j] = 0.0;
-		}
-	}
+	A = Matrix<double>(n, 0);
+	b = Vector<double>(n, 0);
+	x = Vector<double>(n, 0);
 	swapCount = 0;
+	det = 0;
 }
 
-GaussMatrix::~GaussMatrix() {
-	for (size_t i = 0; i < n; ++i) {
-		delete[] values[i];
-	}
-	delete[] values;
-	b.~vector();
-	x.~vector();
-}
+GaussMatrix::~GaussMatrix() {}
 
 void GaussMatrix::makeUpperTriangular() {
+	det = A[0][0];
 	for (size_t k = 0; k < n; ++k) {
 		swapRows(k, findMaxInRows(k));
-		b[k].second /= values[k][k];
+		b[k] /= A[k][k];
 		for (size_t j = k + 1; j < n; ++j) {
-			values[k][j] /= values[k][k];
-			b[j].second -= b[k].second * values[j][k];
+			A[k][j] /= A[k][k];
+			b[j] -= b[k] * A[j][k];
 			for (size_t i = k + 1; i < n; ++i) {
-				values[i][j] -= values[k][j] * values[i][k];
+				A[i][j] -= A[k][j] * A[i][k];
 			}
 		}
-		values[k][k] = 1;
+		det *= A[k][k];
+		A[k][k] = 1;
 	}
 }
 
@@ -79,50 +62,61 @@ void GaussMatrix::printUpperTriangular(ostream& out) const {
 			out << setw(OUTPUT_WIDTH) << setprecision(DECIMAL_PRECISION) << 0 << " ";
 		}
 		for (size_t j = i; j < n; ++j) {
-			out << setw(OUTPUT_WIDTH) << setprecision(DECIMAL_PRECISION) << values[i][j] << " ";
+			out << setw(OUTPUT_WIDTH) << setprecision(DECIMAL_PRECISION) << A[i][j] << " ";
 		}
-		out << b[i].second << endl;
+		out << b[i] << endl;
 	}
+	out << endl;
 }
 
 void GaussMatrix::getSolution() {
 	for (int i = n - 1; i >= 0; --i) {
-		x[i].second = b[i].second;
+		x[i] = b[i];
 		for (int j = n - 1; j > i; --j) {
-			x[i].second -= x[j].second * values[i][j];
+			x[i] -= x[j] * A[i][j];
 		}
 	}
-	sort(x.begin(), x.end(), IndexComparator());
 }
 
 void GaussMatrix::printSolution(ostream& out) const {
 	out << "x = (";
 	for (size_t i = 0; i < n - 1; ++i) {
-		out << setw(OUTPUT_WIDTH) << setprecision(DECIMAL_PRECISION) << x[i].second << ", ";
+		out << setw(OUTPUT_WIDTH) << setprecision(DECIMAL_PRECISION) << x[i] << ", ";
 	}
-	out << setw(OUTPUT_WIDTH) << setprecision(DECIMAL_PRECISION) << x[n - 1].second << ")";
+	out << setw(OUTPUT_WIDTH) << setprecision(DECIMAL_PRECISION) << x[n - 1] << ")" << endl;
+	out << endl;
 }
 
-void GaussMatrix::calculate() const {
+void GaussMatrix::deficiency(ostream& out) const {
 	GaussMatrix temp(5);
 	ifstream fIn("input.txt");
 	fIn >> temp;
 	double* deficiency = new double[n];
 	for (size_t i = 0; i < n; ++i) {
-		deficiency[i] = -temp.b[i].second;
+		deficiency[i] = -temp.b[i];
 		for (size_t j = 0; j < n; ++j) {
-			deficiency[i] = deficiency[i] + temp.values[i][j] * x[j].second;
+			deficiency[i] = deficiency[i] + temp.A[i][j] * x[j];
 		}
 	}
+	out << "r = (";
+	for (size_t i = 0; i < n - 1; ++i) {
+		out << setw(OUTPUT_WIDTH) << setprecision(DECIMAL_PRECISION) << deficiency[i] << ", ";
+	}
+	out << setw(OUTPUT_WIDTH) << setprecision(DECIMAL_PRECISION) << deficiency[n - 1] << ")" << endl;
+	out << endl;
 	delete[] deficiency;
+}
+
+double GaussMatrix::determinant() const {
+	return det;
 }
 
 istream& operator>>(istream& in, GaussMatrix& obj) {
 	for (size_t i = 0; i < obj.n; ++i) {
 		for (size_t j = 0; j < obj.n; ++j) {
-			in >> obj.values[i][j];
+			in >> obj.A[i][j];
 		}
-		in >> obj.b[i].second;
+		in >> obj.b[i];
 	}
 	return in;
 }
@@ -130,9 +124,9 @@ istream& operator>>(istream& in, GaussMatrix& obj) {
 ostream& operator<<(ostream& out, const GaussMatrix& obj) {
 	for (size_t i = 0; i < obj.n; ++i) {
 		for (size_t j = 0; j < obj.n; ++j) {
-			out << setw(OUTPUT_WIDTH) << setprecision(DECIMAL_PRECISION) << obj.values[i][j] << " ";
+			out << setw(OUTPUT_WIDTH) << setprecision(DECIMAL_PRECISION) << obj.A[i][j] << " ";
 		}
-		out << obj.b[i].second << endl;
+		out << obj.b[i] << endl;
 	}
 	out << endl;
 	return out;
