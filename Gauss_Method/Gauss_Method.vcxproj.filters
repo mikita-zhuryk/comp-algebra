@@ -18,15 +18,9 @@
     <ClInclude Include="GaussMatrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IndexComparator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GaussMatrix.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IndexComparator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">

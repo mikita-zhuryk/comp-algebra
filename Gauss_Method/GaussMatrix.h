@@ -2,8 +2,6 @@
 #include <iostream>
 #include "../Matrix/Matrix.h"
 #include "../Vector/Vector.h"
-#define OUTPUT_WIDTH 15
-#define DECIMAL_PRECISION 9
 
 using namespace std;
 
@@ -12,9 +10,12 @@ typedef unsigned int UINT;
 class GaussMatrix {
 
 	Matrix<double> A;
+	Matrix<double> initial_A;
+	Matrix<double> inverse;
 	Vector<double> b;
+	Vector<double> initial_b;
 	Vector<double> x;
-	double det;
+	double detA;
 	size_t n;
 	UINT swapCount;
 	
@@ -32,18 +33,22 @@ public:
 
 	void makeUpperTriangular();
 
-	void printUpperTriangular(ostream&) const;
+	void printUpperTriangular(ostream&);
 
 	void getSolution();
 
-	void printSolution(ostream&) const;
+	void printSolution(ostream&);
 
-	void deficiency(ostream& out) const;
+	void deficiency(ostream& out);
 
 	double determinant() const;
 
+	void printInverse(ostream& out);
+
+	void inverseDeficiency(ostream& out);
+
 	friend istream& operator>>(istream& in, GaussMatrix& obj);
 
-	friend ostream& operator<<(ostream& out, const GaussMatrix& obj);
+	friend ostream& operator<<(ostream& out, GaussMatrix& obj);
 
 };

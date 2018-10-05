@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#define OUTPUT_WIDTH 8
 
 using namespace std;
 
@@ -33,7 +34,7 @@ public:
 	T operator*(const Vector&) const;
 	bool operator==(const Vector&) const;
 	bool operator!=(const Vector&) const;
-	T& operator[](size_t) const;
+	T& operator[](size_t);
 	Vector& operator=(const Vector&);
 
 	template<class T>
@@ -123,7 +124,7 @@ Vector<T>& Vector<T>::operator*=(const T& c) {
 	for (size_t i = 0; i < _size; ++i) {
 		_vec[i] *= c;
 	}
-	return this;
+	return *this;
 }
 
 template<class T>
@@ -193,9 +194,9 @@ bool Vector<T>::operator!=(const Vector<T>& obj) const {
 }
 
 template<class T>
-T& Vector<T>::operator[](size_t index) const {
-	if ((index < 0) || (index >= _size) {
-		return out_of_range("Vector index is out of range");
+T& Vector<T>::operator[](size_t index) {
+	if ((index < 0) || (index >= _size)) {
+		throw out_of_range("Vector index is out of range");
 	}
 	return _vec[index];
 }
@@ -214,9 +215,10 @@ Vector<T>& Vector<T>::operator=(const Vector<T>& obj) {
 
 template<class T>
 ostream& operator<<(ostream& out, const Vector<T>& obj) {
-	for (size_t i = 0; i < _size; i++) {
-		out << obj._vec[i] << ' ';
+	for (size_t i = 0; i < obj._size - 1; i++) {
+		out << setw(OUTPUT_WIDTH) << obj._vec[i] << ' ';
 	}
+	out << setw(OUTPUT_WIDTH) << obj._vec[obj._size - 1];
 	return out;
 }
 

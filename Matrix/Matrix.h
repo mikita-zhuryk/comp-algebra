@@ -15,7 +15,7 @@ protected:
 
 public:
 
-	Matrix() : values({}), n(0) {}
+	Matrix() : _values({}), _n(0) {}
 	Matrix(size_t);
 	Matrix(size_t, const T&);
 	Matrix(vector<Vector<T>>, size_t);
@@ -26,17 +26,17 @@ public:
 	Matrix& operator-=(const T&);
 	Matrix& operator-=(const Matrix&);
 	Matrix& operator*=(const T&);
-	Matrix& operator*=(const Matrix&);
+	Matrix& operator*=(Matrix&);
 	Matrix operator+(const T&) const;
 	Matrix operator+(const Matrix&) const;
 	Matrix operator-(const T&) const;
 	Matrix operator-(const Matrix&) const;
 	Matrix operator*(const T&) const;
-	Matrix operator*(const Matrix&) const;
+	Matrix operator*(Matrix&);
 	Matrix transpone() const;
 	bool operator==(const Matrix&) const;
 	bool operator!=(const Matrix&) const;
-	Vector<T>& operator[](size_t) const;
+	Vector<T>& operator[](size_t);
 	Matrix& operator=(const Matrix&);
 
 	template<class T>
@@ -74,9 +74,7 @@ Matrix<T>::Matrix(vector<Vector<T>> values, size_t n) {
 template<class T>
 Matrix<T>::Matrix(const Matrix<T>& obj) {
 	_n = obj._n;
-	for (size_t i = 0; i < n; ++i) {
-		_values(obj._values);
-	}
+	_values = vector<Vector<T>>(obj._values);
 }
 
 template<class T>
@@ -129,15 +127,16 @@ Matrix<T>& Matrix<T>::operator*=(const T& c) {
 }
 
 template<class T>
-Matrix<T>& Matrix<T>::operator*=(const Matrix<T>& obj) {
+Matrix<T>& Matrix<T>::operator*=(Matrix<T>& obj) {
 	if (_n != obj._n) {
 		throw invalid_argument("Matrix multiplication error. Different matrix sizes.");
 	}
+	Matrix<T> temp = obj.transpone();
+	Vector<T> row;
 	for (size_t i = 0; i < _n; ++i) {
+		row = _values[i];
 		for (size_t j = 0; j < _n; ++j) {
-			for (size_t k = 0; k < _n; ++k) {
-				_values[i][j] += _values[i][k] * obj._values[k][j];
-			}
+			_values[i][j] = row * temp[j];
 		}
 	}
 	return *this;
@@ -179,7 +178,7 @@ Matrix<T> Matrix<T>::operator*(const T& c) const {
 }
 
 template<class T>
-Matrix<T> Matrix<T>::operator*(const Matrix<T>& obj) const {
+Matrix<T> Matrix<T>::operator*(Matrix<T>& obj) {
 	Matrix<T> temp(*this);
 	temp *= obj;
 	return temp;
@@ -188,7 +187,7 @@ Matrix<T> Matrix<T>::operator*(const Matrix<T>& obj) const {
 template<class T>
 Matrix<T> Matrix<T>::transpone() const {
 	Matrix<T> temp(*this);
-	for (size_t i = 0; i < _n / 2; ++i) {
+	for (size_t i = 0; i < _n; ++i) {
 		for (size_t j = i; j < _n; ++j) {
 			swap(temp._values[i][j], temp._values[j][i]);
 		}
@@ -215,9 +214,9 @@ bool Matrix<T>::operator!=(const Matrix<T>& obj) const {
 }
 
 template<class T>
-Vector<T>& Matrix<T>::operator[](size_t index) const {
+Vector<T>& Matrix<T>::operator[](size_t index) {
 	if ((index < 0) || (index >= _n)) {
-		return out_of_range("Matrix row index out of range.");
+		throw out_of_range("Matrix row index out of range.");
 	}
 	return _values[index];
 }
@@ -231,11 +230,12 @@ Matrix<T>& Matrix<T>::operator=(const Matrix& obj) {
 			_values[i] = obj._values[i];
 		}
 	}
+	return *this;
 }
 
 template<class T>
 ostream& operator<<(ostream& out, const Matrix<T>& obj) {
-	for (size_t i = 0; i < _n; ++i) {
+	for (size_t i = 0; i < obj._n; ++i) {
 		out << obj._values[i] << endl;
 	}
 	return out;

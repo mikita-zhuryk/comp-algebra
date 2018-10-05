@@ -116,11 +116,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="GaussMatrix.h" />
-    <ClInclude Include="IndexComparator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GaussMatrix.cpp" />
-    <ClCompile Include="IndexComparator.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
