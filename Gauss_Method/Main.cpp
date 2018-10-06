@@ -22,6 +22,7 @@ int main() {
 		fOut.setf(ios_base::fixed, ios_base::floatfield);
 		fOut << "detA = " << gauss.determinant() << endl << endl;
 		gauss.printInverse(fOut);
+		fOut.setf(ios_base::scientific, ios_base::floatfield);
 		gauss.inverseDeficiency(fOut);
 		system("pause");
 	}

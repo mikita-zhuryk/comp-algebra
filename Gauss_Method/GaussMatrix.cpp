@@ -38,26 +38,27 @@ GaussMatrix::GaussMatrix(size_t dim) {
 	initial_b = Vector<double>(n, 0);
 	x = Vector<double>(n, 0);
 	swapCount = 0;
-	detA = 0;
+	detA = 1;
 }
 
 GaussMatrix::~GaussMatrix() {}
 
 void GaussMatrix::makeUpperTriangular() {
-	detA = A[0][0];
 	for (size_t k = 0; k < n; ++k) {
 		swapRows(k, findMaxInRows(k));
 		b[k] /= A[k][k];
 		for (size_t j = k + 1; j < n; ++j) {
 			A[k][j] /= A[k][k];
 			b[j] -= b[k] * A[j][k];
-			inverse[j] -= inverse[k] * A[j][k];
 			for (size_t i = k + 1; i < n; ++i) {
 				A[i][j] -= A[k][j] * A[i][k];
 			}
 		}
-		detA *= A[k][k];
 		inverse[k] *= 1 / A[k][k];
+		for (size_t i = k + 1; i < n; ++i) {
+			inverse[i] -= inverse[k] * A[i][k];
+		}
+		detA *= A[k][k];
 		A[k][k] = 1;
 	}
 }
@@ -106,7 +107,7 @@ void GaussMatrix::deficiency(ostream& out) {
 }
 
 double GaussMatrix::determinant() const {
-	return detA;
+	return ((swapCount % 2) ? -detA : detA);
 }
 
 void GaussMatrix::printInverse(ostream& out) {
