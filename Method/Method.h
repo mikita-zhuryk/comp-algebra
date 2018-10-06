@@ -1,6 +1,7 @@
 #include "../Matrix/Matrix.h"
 #include "../Vector/Vector.h"
 #pragma once
+#define DECIMAL_PRECISION 5
 
 using namespace std;
 
@@ -42,14 +43,33 @@ public:
 
 	~Method() {}
 
+	void run(ostream& out) {
+		out.setf(ios_base::fixed, ios_base::floatfield);
+		out.precision(DECIMAL_PRECISION);
+		solve(out);
+		out.setf(ios_base::scientific, ios_base::floatfield);
+		printDeficiency(out);
+		out.setf(ios_base::fixed, ios_base::floatfield);
+		out << "detA = " << determinant() << endl << endl;
+		printInverse(out);
+		out.setf(ios_base::scientific, ios_base::floatfield);
+		printInverseDeficiency(out);
+	}
+
 	virtual void solve(ostream&) = 0;
 
 	void printSolution(ostream& out) {
+		if (!out) {
+			throw invalid_argument("Bad output stream in printSolution(ostream&).");
+		}
 		out << "x = (" << x << ")" << endl;
 		out << endl;
 	}
 
 	void printDeficiency(ostream& out) {
+		if (!out) {
+			throw invalid_argument("Bad output stream in printDeficiency(ostream&).");
+		}
 		Vector<double> deficiency(n);
 		for (size_t i = 0; i < n; ++i) {
 			deficiency[i] = -initial_b[i];
@@ -66,11 +86,48 @@ public:
 	}
 
 	void printInverse(ostream& out) {
+		if (!out) {
+			throw invalid_argument("Bad output stream in printInverse(ostream&).");
+		}
 		out << inverse << endl;
 	}
 
 	void printInverseDeficiency(ostream& out) {
+		if (!out) {
+			throw invalid_argument("Bad output stream in printInverseDeficiency(ostream&).");
+		}
 		out << (Matrix<double>(n, 0) + 1) - inverse * initial_A << endl;
+	}
+
+	friend istream& operator>>(istream& in, Method& obj) {
+		if (!in) {
+			throw invalid_argument("Bad input stream in operator>>(istream&, Method&).");
+		}
+		in.peek();
+		if (in.eof()) {
+			throw invalid_argument("Empty input file in operator>>(istream&, Method&).");
+		}
+		for (size_t i = 0; i < obj.n; ++i) {
+			for (size_t j = 0; j < obj.n; ++j) {
+				in >> obj.A[i][j];
+				obj.initial_A[i][j] = obj.A[i][j];
+			}
+			in >> obj.b[i];
+			obj.initial_b[i] = obj.b[i];
+		}
+		return in;
+	}
+
+	friend ostream& operator<<(ostream& out, Method& obj) {
+		if (!out) {
+			throw invalid_argument("Bad output stream in operator<<(ostream&, Method&).");
+		}
+		for (size_t i = 0; i < obj.n; ++i) {
+			out << obj.A[i] << " ";
+			out << setw(OUTPUT_WIDTH) << obj.b[i] << endl;
+		}
+		out << endl;
+		return out;
 	}
 
 };

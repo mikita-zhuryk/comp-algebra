@@ -28,10 +28,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Output.txt">
+    <Text Include="..\Matrix.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="..\Matrix.txt">
+    <Text Include="GaussOutput.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

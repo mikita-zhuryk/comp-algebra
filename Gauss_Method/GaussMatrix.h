@@ -28,7 +28,5 @@ private:
 public:
 
 	double determinant() const override;
-	friend istream& operator>>(istream& in, GaussMatrix& obj);
-	friend ostream& operator<<(ostream& out, GaussMatrix& obj);
 
 };

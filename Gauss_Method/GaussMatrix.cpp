@@ -53,6 +53,9 @@ void GaussMatrix::makeUpperTriangular() {
 }
 
 void GaussMatrix::printUpperTriangular(ostream& out) {
+	if (!out) {
+		throw invalid_argument("Bad output stream in printUpperTriangular(ostream&).");
+	}
 	for (size_t i = 0; i < n; ++i) {
 		for (size_t j = 0; j < i; ++j) {
 			out << setw(OUTPUT_WIDTH) << 0 << " ";
@@ -79,25 +82,4 @@ void GaussMatrix::getSolution() {
 
 double GaussMatrix::determinant() const {
 	return ((swapCount % 2) ? -detA : detA);
-}
-
-istream& operator>>(istream& in, GaussMatrix& obj) {
-	for (size_t i = 0; i < obj.n; ++i) {
-		for (size_t j = 0; j < obj.n; ++j) {
-			in >> obj.A[i][j];
-			obj.initial_A[i][j] = obj.A[i][j];
-		}
-		in >> obj.b[i];
-		obj.initial_b[i] = obj.b[i];
-	}
-	return in;
-}
-
-ostream& operator<<(ostream& out, GaussMatrix& obj) {
-	for (size_t i = 0; i < obj.n; ++i) {
-		out << obj.A[i] << " ";
-		out << setw(OUTPUT_WIDTH) << obj.b[i] << endl;
-	}
-	out << endl;
-	return out;
 }
