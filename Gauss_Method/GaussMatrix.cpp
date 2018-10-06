@@ -1,14 +1,5 @@
 #include "GaussMatrix.h"
-#include <algorithm>
 #include <iomanip>
-#include <fstream>
-
-void GaussMatrix::setDimensions(size_t dim) {
-	if (dim <= 0) {
-		throw invalid_argument("Matrix dimensions are less than or equal to 0.");
-	}
-	n = dim;
-}
 
 void GaussMatrix::swapRows(size_t k, size_t l) {
 	if (k != l) {
@@ -28,17 +19,8 @@ size_t GaussMatrix::findMaxInRows(UINT step) {
 	return max_index;
 }
 
-GaussMatrix::GaussMatrix(size_t dim) {
-	setDimensions(dim);
-	A = Matrix<double>(n, 0);
-	initial_A = Matrix<double>(n, 0);
-	inverse = Matrix<double>(n, 0);
-	inverse += 1;
-	b = Vector<double>(n, 0);
-	initial_b = Vector<double>(n, 0);
-	x = Vector<double>(n, 0);
+GaussMatrix::GaussMatrix(size_t dim): Method(dim) {
 	swapCount = 0;
-	detA = 1;
 }
 
 GaussMatrix::~GaussMatrix() {}
@@ -84,38 +66,12 @@ void GaussMatrix::getSolution() {
 		}
 		for (int j = i - 1; j >= 0; --j) {
 			inverse[j] -= inverse[i] * A[j][i];
-			cout << inverse << endl;
 		}
 	}
-}
-
-void GaussMatrix::printSolution(ostream& out) {
-	out << "x = (" << x << ")" << endl;
-	out << endl;
-}
-
-void GaussMatrix::deficiency(ostream& out) {
-	Vector<double> deficiency(n);
-	for (size_t i = 0; i < n; ++i) {
-		deficiency[i] = -initial_b[i];
-		for (size_t j = 0; j < n; ++j) {
-			deficiency[i] = deficiency[i] + initial_A[i][j] * x[j];
-		}
-	}
-	out << "r = (" << deficiency << ")" << endl;
-	out << endl;
 }
 
 double GaussMatrix::determinant() const {
 	return ((swapCount % 2) ? -detA : detA);
-}
-
-void GaussMatrix::printInverse(ostream& out) {
-	out << inverse << endl;
-}
-
-void GaussMatrix::inverseDeficiency(ostream& out) {
-	out << (Matrix<double>(n, 0) + 1) - inverse * initial_A << endl;
 }
 
 istream& operator>>(istream& in, GaussMatrix& obj) {

@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{E4C631A7-8F0E-4BB5-BA81-CB5D7738BD14}</ProjectGuid>
-    <RootNamespace>GaussMethod</RootNamespace>
+    <ProjectGuid>{C3EF59C7-644E-4C4D-8216-477C2AC0AD67}</ProjectGuid>
+    <RootNamespace>GeneralMethod</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -70,7 +70,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
@@ -78,7 +78,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
@@ -115,19 +115,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="GaussMatrix.h" />
+    <ClInclude Include="Method.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GaussMatrix.cpp" />
-    <ClCompile Include="Main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\Matrix.txt" />
-    <Text Include="Output.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\General_Method\General_Method.vcxproj">
-      <Project>{c3ef59c7-644e-4c4d-8216-477c2ac0ad67}</Project>
+    <ProjectReference Include="..\Matrix\Matrix.vcxproj">
+      <Project>{426b8466-b7e3-46ab-b21f-c05caf0bfb8f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Vector\Vector.vcxproj">
+      <Project>{b065d712-0885-442e-9831-34efa3c401c9}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

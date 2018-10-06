@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{E4C631A7-8F0E-4BB5-BA81-CB5D7738BD14}</ProjectGuid>
-    <RootNamespace>GaussMethod</RootNamespace>
+    <ProjectGuid>{EA4B066D-212A-46E2-A550-A8C6E394D368}</ProjectGuid>
+    <RootNamespace>SqrtMethod</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -70,7 +70,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
@@ -78,7 +78,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
@@ -115,15 +115,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="GaussMatrix.h" />
+    <ClInclude Include="Sqrt_Method.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GaussMatrix.cpp" />
     <ClCompile Include="Main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\Matrix.txt" />
-    <Text Include="Output.txt" />
+    <ClCompile Include="Sqrt_Method.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\General_Method\General_Method.vcxproj">
