@@ -1,6 +1,19 @@
 #include "GaussMatrix.h"
 #include <iomanip>
 
+GaussMatrix::GaussMatrix(size_t dim): Method(dim) {
+	swapCount = 0;
+}
+
+GaussMatrix::~GaussMatrix() {}
+
+void GaussMatrix::solve(ostream& out) {
+	makeUpperTriangular();
+	printUpperTriangular(out);
+	getSolution();
+	printSolution(out);
+}
+
 void GaussMatrix::swapRows(size_t k, size_t l) {
 	if (k != l) {
 		swap(A[k], A[l]);
@@ -18,12 +31,6 @@ size_t GaussMatrix::findMaxInRows(UINT step) {
 	}
 	return max_index;
 }
-
-GaussMatrix::GaussMatrix(size_t dim): Method(dim) {
-	swapCount = 0;
-}
-
-GaussMatrix::~GaussMatrix() {}
 
 void GaussMatrix::makeUpperTriangular() {
 	for (size_t k = 0; k < n; ++k) {

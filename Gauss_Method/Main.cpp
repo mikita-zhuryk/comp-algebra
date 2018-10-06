@@ -15,12 +15,9 @@ int main() {
 		fOut << gauss;
 		fOut.setf(ios_base::fixed, ios_base::floatfield);
 		fOut.precision(DECIMAL_PRECISION);
-		gauss.makeUpperTriangular();
-		gauss.printUpperTriangular(fOut);
-		gauss.getSolution();
-		gauss.printSolution(fOut);
+		gauss.solve(fOut);
 		fOut.setf(ios_base::scientific, ios_base::floatfield);
-		gauss.deficiency(fOut);
+		gauss.printDeficiency(fOut);
 		fOut.setf(ios_base::fixed, ios_base::floatfield);
 		fOut << "detA = " << gauss.determinant() << endl << endl;
 		gauss.printInverse(fOut);

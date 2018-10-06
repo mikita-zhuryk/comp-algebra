@@ -122,8 +122,8 @@
     <ClCompile Include="Sqrt_Method.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\General_Method\General_Method.vcxproj">
-      <Project>{c3ef59c7-644e-4c4d-8216-477c2ac0ad67}</Project>
+    <ProjectReference Include="..\Method\Method.vcxproj">
+      <Project>{0a58cea8-ee07-44d8-be4a-61a24053d1a6}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

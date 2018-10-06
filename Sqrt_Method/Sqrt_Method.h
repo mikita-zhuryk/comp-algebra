@@ -1,8 +1,6 @@
-#pragma once
-#include "../General_Method/Method.h"
+#include "../Method/Method.h"
 #include <fstream>
-#include "../Matrix/Matrix.h"
-#include "../Vector/Vector.h"
+#pragma once
 
 using namespace std;
 

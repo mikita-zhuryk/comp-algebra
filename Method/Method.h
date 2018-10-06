@@ -42,12 +42,14 @@ public:
 
 	~Method() {}
 
+	virtual void solve(ostream&) = 0;
+
 	void printSolution(ostream& out) {
 		out << "x = (" << x << ")" << endl;
 		out << endl;
 	}
 
-	void deficiency(ostream& out) {
+	void printDeficiency(ostream& out) {
 		Vector<double> deficiency(n);
 		for (size_t i = 0; i < n; ++i) {
 			deficiency[i] = -initial_b[i];
