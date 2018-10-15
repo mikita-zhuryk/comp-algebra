@@ -26,12 +26,12 @@ void Sqrt_Method::solve(ostream& out) {
 
 void Sqrt_Method::calculateS() {
 	S[0][0] = sqrt(A[0][0]);
-	for (size_t j = 0; j < n; ++j) {
+	for (size_t j = 1; j < n; ++j) {
 		S[0][j] = A[0][j] / S[0][0];
 	}
 	double squareSum = 0;
 	double strangeSum = 0;
-	for (size_t i = 0; i < n; ++i) {
+	for (size_t i = 1; i < n; ++i) {
 		squareSum = 0;
 		for (size_t k = 0; k < i; ++k) {
 			squareSum += pow(S[k][i], 2);
