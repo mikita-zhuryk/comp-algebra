@@ -200,7 +200,7 @@ template<class T>
 Matrix<T> Matrix<T>::transpose() const {
 	Matrix<T> temp(*this);
 	for (size_t i = 0; i < _n; ++i) {
-		for (size_t j = i; j < _n; ++j) {
+		for (size_t j = i + 1; j < _n; ++j) {
 			swap(temp._values[i][j], temp._values[j][i]);
 		}
 	}

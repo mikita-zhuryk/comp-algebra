@@ -25,9 +25,9 @@ void Sqrt_Method::solve(ostream& out) {
 }
 
 void Sqrt_Method::calculateS() {
-	S[1][1] = sqrt(A[1][1]);
+	S[0][0] = sqrt(A[0][0]);
 	for (size_t j = 0; j < n; ++j) {
-		S[1][j] = A[1][j] / S[1][1];
+		S[0][j] = A[0][j] / S[0][0];
 	}
 	double squareSum = 0;
 	double strangeSum = 0;
