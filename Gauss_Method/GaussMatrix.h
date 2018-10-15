@@ -27,6 +27,6 @@ private:
 
 public:
 
-	double determinant() const override;
+	double determinant() override;
 
 };

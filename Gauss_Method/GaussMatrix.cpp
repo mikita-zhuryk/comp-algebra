@@ -11,13 +11,13 @@ void GaussMatrix::solve(ostream& out) {
 	makeUpperTriangular();
 	printUpperTriangular(out);
 	getSolution();
-	printSolution(out);
 }
 
 void GaussMatrix::swapRows(size_t k, size_t l) {
 	if (k != l) {
 		swap(A[k], A[l]);
 		swap(b[k], b[l]);
+		swap(inverse[k], inverse[l]);
 		swapCount++;
 	}
 }
@@ -80,6 +80,6 @@ void GaussMatrix::getSolution() {
 	}
 }
 
-double GaussMatrix::determinant() const {
+double GaussMatrix::determinant() {
 	return ((swapCount % 2) ? -detA : detA);
 }
