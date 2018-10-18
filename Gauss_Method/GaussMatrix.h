@@ -10,6 +10,7 @@ class GaussMatrix: public Method {
 
 	GaussMatrix();
 	UINT swapCount;
+	vector<double> pivot;
 
 public:
 
@@ -21,12 +22,10 @@ private:
 
 	void swapRows(size_t, size_t);
 	size_t findMaxInRows(UINT);
-	void makeUpperTriangular();
+	void makeUpperTriangular(Matrix<double>&, Vector<double>&, bool);
 	void printUpperTriangular(ostream&);
-	void getSolution();
-
-public:
-
+	void getSolution(Matrix<double>&, Vector<double>&);
 	double determinant() override;
+	void findInverse() override;
 
 };

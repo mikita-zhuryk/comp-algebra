@@ -21,7 +21,6 @@ void Sqrt_Method::solve(ostream& out) {
 	out << "S:" << endl << S << endl;
 	solveForY();
 	solveForX();
-	findInverse();
 }
 
 void Sqrt_Method::calculateS() {

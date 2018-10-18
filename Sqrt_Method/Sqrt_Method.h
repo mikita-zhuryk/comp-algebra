@@ -13,20 +13,15 @@ public:
 
 	Sqrt_Method(size_t);
 
+private:
+
 	void solve(ostream&) override;
-
 	void calculateS();
-
 	void solveForY();
-
 	void solveForX();
-
 	double determinant() override;
-
-	void findInverse();
-
+	void findInverse() override;
 	void printInverse(ostream& out) override;
-
 	void printInverseDeficiency(ostream&) override;
 
 };

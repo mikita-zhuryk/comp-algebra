@@ -52,12 +52,15 @@ public:
 		printDeficiency(out);
 		out.setf(ios_base::fixed, ios_base::floatfield);
 		out << "detA = " << determinant() << endl << endl;
+		findInverse();
 		printInverse(out);
 		out.setf(ios_base::scientific, ios_base::floatfield);
 		printInverseDeficiency(out);
 	}
 
 	virtual void solve(ostream&) = 0;
+
+	virtual void findInverse() = 0;
 
 	void printSolution(ostream& out) {
 		if (!out) {
