@@ -8,16 +8,16 @@ GaussMatrix::GaussMatrix(size_t dim): Method(dim) {
 GaussMatrix::~GaussMatrix() {}
 
 void GaussMatrix::solve(ostream& out) {
-	makeUpperTriangular();
+	makeUpperTriangular(A, b, true);
 	printUpperTriangular(out);
-	getSolution();
-	printSolution(out);
+	getSolution(A, b);
 }
 
 void GaussMatrix::swapRows(size_t k, size_t l) {
 	if (k != l) {
 		swap(A[k], A[l]);
 		swap(b[k], b[l]);
+		swap(inverse[k], inverse[l]);
 		swapCount++;
 	}
 }
@@ -32,7 +32,7 @@ size_t GaussMatrix::findMaxInRows(UINT step) {
 	return max_index;
 }
 
-void GaussMatrix::makeUpperTriangular() {
+void GaussMatrix::makeUpperTriangular(Matrix<double>& A, Vector<double>& b, bool savePivot = false) {
 	for (size_t k = 0; k < n; ++k) {
 		swapRows(k, findMaxInRows(k));
 		b[k] /= A[k][k];
@@ -43,11 +43,9 @@ void GaussMatrix::makeUpperTriangular() {
 				A[i][j] -= A[k][j] * A[i][k];
 			}
 		}
-		inverse[k] *= 1 / A[k][k];
-		for (size_t i = k + 1; i < n; ++i) {
-			inverse[i] -= inverse[k] * A[i][k];
+		if (savePivot) {
+			pivot.push_back(A[k][k]);
 		}
-		detA *= A[k][k];
 		A[k][k] = 1;
 	}
 }
@@ -68,18 +66,32 @@ void GaussMatrix::printUpperTriangular(ostream& out) {
 	out << endl;
 }
 
-void GaussMatrix::getSolution() {
+void GaussMatrix::getSolution(Matrix<double>& A, Vector<double>& b) {
 	for (int i = n - 1; i >= 0; --i) {
 		x[i] = b[i];
 		for (size_t j = n - 1; j > i; --j) {
 			x[i] -= x[j] * A[i][j];
 		}
-		for (int j = i - 1; j >= 0; --j) {
-			inverse[j] -= inverse[i] * A[j][i];
-		}
 	}
 }
 
-double GaussMatrix::determinant() const {
+double GaussMatrix::determinant() {
+	for (size_t i = 0; i < n; ++i) {
+		detA *= pivot[i];
+	}
 	return ((swapCount % 2) ? -detA : detA);
+}
+
+void GaussMatrix::findInverse() {
+	Vector<double> temp(n, 0);
+	for (size_t k = 0; k < n; ++k) {
+		temp[k] = 1;
+		A = initial_A;
+		this->makeUpperTriangular(A, temp);
+		this->getSolution(A, temp);
+		for (size_t j = 0; j < n; ++j) {
+			inverse[j][k] = x[j];
+			temp[j] = 0;
+		}
+	}
 }

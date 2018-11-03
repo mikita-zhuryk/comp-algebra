@@ -27,4 +27,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Matrix.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SqrtOutput.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

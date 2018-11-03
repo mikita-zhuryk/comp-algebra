@@ -126,6 +126,10 @@
       <Project>{0a58cea8-ee07-44d8-be4a-61a24053d1a6}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Matrix.txt" />
+    <Text Include="SqrtOutput.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

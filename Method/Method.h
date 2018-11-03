@@ -47,16 +47,20 @@ public:
 		out.setf(ios_base::fixed, ios_base::floatfield);
 		out.precision(DECIMAL_PRECISION);
 		solve(out);
+		printSolution(out);
 		out.setf(ios_base::scientific, ios_base::floatfield);
 		printDeficiency(out);
 		out.setf(ios_base::fixed, ios_base::floatfield);
 		out << "detA = " << determinant() << endl << endl;
+		findInverse();
 		printInverse(out);
 		out.setf(ios_base::scientific, ios_base::floatfield);
 		printInverseDeficiency(out);
 	}
 
 	virtual void solve(ostream&) = 0;
+
+	virtual void findInverse() = 0;
 
 	void printSolution(ostream& out) {
 		if (!out) {
@@ -81,21 +85,23 @@ public:
 		out << endl;
 	}
 
-	virtual double determinant() const {
+	virtual double determinant() {
 		return detA;
 	}
 
-	void printInverse(ostream& out) {
+	virtual void printInverse(ostream& out) {
 		if (!out) {
 			throw invalid_argument("Bad output stream in printInverse(ostream&).");
 		}
+		out << "A^(-1):" << endl;
 		out << inverse << endl;
 	}
 
-	void printInverseDeficiency(ostream& out) {
+	virtual void printInverseDeficiency(ostream& out) {
 		if (!out) {
 			throw invalid_argument("Bad output stream in printInverseDeficiency(ostream&).");
 		}
+		out << "R:" << endl;
 		out << (Matrix<double>(n, 0) + 1) - inverse * initial_A << endl;
 	}
 
