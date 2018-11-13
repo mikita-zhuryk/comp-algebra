@@ -8,9 +8,9 @@ GaussMatrix::GaussMatrix(size_t dim): Method(dim) {
 GaussMatrix::~GaussMatrix() {}
 
 void GaussMatrix::solve(ostream& out) {
-	makeUpperTriangular(A, b, true);
+	makeUpperTriangular();
 	printUpperTriangular(out);
-	getSolution(A, b);
+	getSolution(b);
 }
 
 void GaussMatrix::swapRows(size_t k, size_t l) {
@@ -32,21 +32,25 @@ size_t GaussMatrix::findMaxInRows(UINT step) {
 	return max_index;
 }
 
-void GaussMatrix::makeUpperTriangular(Matrix<double>& A, Vector<double>& b, bool savePivot = false) {
+void GaussMatrix::makeUpperTriangular() {
 	for (size_t k = 0; k < n; ++k) {
 		swapRows(k, findMaxInRows(k));
 		b[k] /= A[k][k];
+		inverse[k] /= A[k][k];
+		pivot.push_back(A[k][k]);
 		for (size_t j = k + 1; j < n; ++j) {
 			A[k][j] /= A[k][k];
-			b[j] -= b[k] * A[j][k];
-			for (size_t i = k + 1; i < n; ++i) {
-				A[i][j] -= A[k][j] * A[i][k];
-			}
-		}
-		if (savePivot) {
-			pivot.push_back(A[k][k]);
 		}
 		A[k][k] = 1;
+		for (size_t j = k + 1; j < n; ++j) {
+			inverse[j] -= inverse[k] * A[j][k];
+			b[j] -= b[k] * A[j][k];
+			A[j] -= A[k] * A[j][k];
+		}
+	}
+	double eps = pow(10.0, -15);
+	if ((abs(A[n - 1][n - 1]) <= eps) && (abs(b[n - 1]) >= eps)) {
+		throw "No solutions";
 	}
 }
 
@@ -55,10 +59,7 @@ void GaussMatrix::printUpperTriangular(ostream& out) {
 		throw invalid_argument("Bad output stream in printUpperTriangular(ostream&).");
 	}
 	for (size_t i = 0; i < n; ++i) {
-		for (size_t j = 0; j < i; ++j) {
-			out << setw(OUTPUT_WIDTH) << 0 << " ";
-		}
-		for (size_t j = i; j < n; ++j) {
+		for (size_t j = 0; j < n; ++j) {
 			out << setw(OUTPUT_WIDTH) << A[i][j] << " ";
 		}
 		out << setw(OUTPUT_WIDTH) << b[i] << endl;
@@ -66,7 +67,7 @@ void GaussMatrix::printUpperTriangular(ostream& out) {
 	out << endl;
 }
 
-void GaussMatrix::getSolution(Matrix<double>& A, Vector<double>& b) {
+void GaussMatrix::getSolution(Vector<double>& b) {
 	for (int i = n - 1; i >= 0; --i) {
 		x[i] = b[i];
 		for (size_t j = n - 1; j > i; --j) {
@@ -85,13 +86,12 @@ double GaussMatrix::determinant() {
 void GaussMatrix::findInverse() {
 	Vector<double> temp(n, 0);
 	for (size_t k = 0; k < n; ++k) {
-		temp[k] = 1;
-		A = initial_A;
-		this->makeUpperTriangular(A, temp);
-		this->getSolution(A, temp);
+		for (size_t j = 0; j < n; ++j) {
+			temp[j] = inverse[j][k];
+		}
+		getSolution(temp);
 		for (size_t j = 0; j < n; ++j) {
 			inverse[j][k] = x[j];
-			temp[j] = 0;
 		}
 	}
 }
