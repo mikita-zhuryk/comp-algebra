@@ -22,9 +22,9 @@ private:
 
 	void swapRows(size_t, size_t);
 	size_t findMaxInRows(UINT);
-	void makeUpperTriangular(Matrix<double>&, Vector<double>&, bool);
+	void makeUpperTriangular();
 	void printUpperTriangular(ostream&);
-	void getSolution(Matrix<double>&, Vector<double>&);
+	void getSolution(Vector<double>&);
 	double determinant() override;
 	void findInverse() override;
 

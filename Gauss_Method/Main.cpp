@@ -1,5 +1,6 @@
 #include "GaussMatrix.h"
 #include <fstream>
+#include <string>
 #define PATH_TO_MATRIX "../Matrix.txt"
 #define MATRIX_DIM 5
 
@@ -19,6 +20,9 @@ int main() {
 	}
 	catch (out_of_range oor) {
 		cerr << oor.what() << endl;
+	}
+	catch (string s) {
+		cerr << s << endl;
 	}
 	catch (...) {
 		cerr << "Unhandled exception." << endl;

@@ -27,6 +27,7 @@ public:
 	Vector& operator-=(const T&);
 	Vector& operator-=(const Vector&);
 	Vector& operator*=(const T&);
+	Vector& operator/=(const T&);
 	Vector operator+(const T&) const;
 	Vector operator+(const Vector&) const;
 	Vector operator-(const T&) const;
@@ -124,6 +125,14 @@ template<class T>
 Vector<T>& Vector<T>::operator*=(const T& c) {
 	for (size_t i = 0; i < _size; ++i) {
 		_vec[i] *= c;
+	}
+	return *this;
+}
+
+template<class T>
+Vector<T>& Vector<T>::operator/=(const T& c) {
+	for (size_t i = 0; i < _size; ++i) {
+		_vec[i] /= c;
 	}
 	return *this;
 }
