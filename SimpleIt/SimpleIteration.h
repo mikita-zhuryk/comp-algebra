@@ -13,6 +13,8 @@ namespace CMA {
 
 		SimpleIteration(size_t);
 
+	private:
+
 		void solve(ostream&) override;
 		void buildBg();
 		double determinant() override;
