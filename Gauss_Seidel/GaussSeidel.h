@@ -5,9 +5,11 @@ namespace CMA {
 
 	class GaussSeidel : public Method {
 
+		const double accuracy;
+
 	public:
 
-		GaussSeidel(size_t);
+		GaussSeidel(size_t, int);
 
 	private:
 

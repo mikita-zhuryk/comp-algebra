@@ -2,7 +2,7 @@
 
 using namespace CMA;
 
-SimpleIteration::SimpleIteration(size_t dim) : Method(dim) {
+SimpleIteration::SimpleIteration(size_t dim, int acc) : Method(dim), accuracy(pow(10, acc)) {
 	B = Matrix<double>(n, 0);
 	g = Vector<double>(n, 0);
 }
@@ -10,18 +10,18 @@ SimpleIteration::SimpleIteration(size_t dim) : Method(dim) {
 void SimpleIteration::solve(ostream& out) {
 	buildBg();
 	x = b;
-	size_t i = 0;
-	Vector<double> temp(B * x + g);
+	int k = 1;
+	Vector<double> temp(n, 0);
 	out << "B: " << endl << B << endl << "B norm: " << endl << B.norm() << endl << endl;
-	this->printSolution(out);
-	double eps = pow(10, -6);
-	while ((temp-x).norm() > eps) {
-		x = temp;
+	do {
+		if (k != 1) {
+			x = temp;
+		}
 		temp = B * x + g;
-		out << i + 1 << " iteration " << endl;
-		this->printSolution(out);
-		++i;
-	}
+		out << k << " iteration:\nDeficiency:\n" << calcDeficiency() << endl;
+		printSolution(out);
+		++k;
+	} while ((temp - x).norm() > accuracy);
 }
 
 void SimpleIteration::buildBg() {
