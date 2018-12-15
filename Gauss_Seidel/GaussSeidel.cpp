@@ -2,15 +2,16 @@
 
 using namespace CMA;
 
-GaussSeidel::GaussSeidel(size_t dim): Method(dim) { }
+GaussSeidel::GaussSeidel(size_t dim, int acc): Method(dim), accuracy(pow(10, acc)) { }
 
 void GaussSeidel::solve(ostream& out) {
 	x = b;
-	Vector<double> newX(x);
-	double eps = pow(10, -5);
-	int i = 0;
-	this->printSolution(out);
-	while (calcDeficiency().norm() > eps) {
+	Vector<double> newX(n, 0);
+	int k = 1;
+	do {
+		if (k != 1) {
+			x = newX;
+		}
 		for (int i = 0; i < n; ++i) {
 			newX[i] = b[i];
 			for (int j = 0; j < i; ++j) {
@@ -20,12 +21,11 @@ void GaussSeidel::solve(ostream& out) {
 				newX[i] -= A[i][j] * x[j];
 			}
 			newX[i] /= A[i][i];
-			x[i] = newX[i];
 		}
-		out << i + 1 << " iteration" << endl;
-		this->printSolution(out);
-		++i;
-	}
+		out << k << " iteration:\nDeficiency:\n" << calcDeficiency() << endl;
+		printSolution(out);
+		++k;
+	} while ((newX - x).norm() > accuracy);
 }
 
 double GaussSeidel::determinant() {

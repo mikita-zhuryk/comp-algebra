@@ -1,4 +1,4 @@
-#include "SimpleIteration.h"
+#include "Relaxation.h"
 #include <fstream>
 #define PATH_TO_MATRIX "../Matrix.txt"
 #define MATRIX_DIM 5
@@ -8,11 +8,11 @@ using namespace std;
 int main() {
 	try {
 		ifstream fIn(PATH_TO_MATRIX);
-		ofstream fOut("SimpleIterationOutput.txt");
-		CMA::SimpleIteration sit(MATRIX_DIM, -5);
-		fIn >> sit;
-		fOut << sit;
-		sit.run(fOut);
+		ofstream fOut("RelaxationOutput.txt");
+		CMA::Relaxation relax(MATRIX_DIM, 0.9, -5);
+		fIn >> relax;
+		fOut << relax;
+		relax.run(fOut);
 	}
 	catch (invalid_argument ia) {
 		cerr << ia.what() << endl;
@@ -23,5 +23,6 @@ int main() {
 	catch (...) {
 		cerr << "Unhandled exception." << endl;
 	}
+	system("pause");
 	return 0;
 }

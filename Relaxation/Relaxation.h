@@ -1,23 +1,20 @@
 #pragma once
 #include "../Method/Method.h"
-#include <fstream>
 
 namespace CMA {
 
-	class SimpleIteration : public Method {
+	class Relaxation : public Method {
 
-		Matrix<double> B;
-		Vector<double> g;
 		const double accuracy;
+		const double omega;
 
 	public:
 
-		SimpleIteration(size_t, int);
+		Relaxation(size_t, double, int);
 
 	private:
 
 		void solve(ostream&) override;
-		void buildBg();
 		double determinant() override;
 
 	};

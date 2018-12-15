@@ -9,7 +9,7 @@ int main() {
 	try {
 		ifstream fIn(PATH_TO_MATRIX);
 		ofstream fOut("GaussSeidelOutput.txt");
-		CMA::GaussSeidel gs(MATRIX_DIM);
+		CMA::GaussSeidel gs(MATRIX_DIM, -5);
 		fIn >> gs;
 		fOut << gs;
 		gs.run(fOut);
