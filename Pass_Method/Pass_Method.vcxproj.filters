@@ -18,7 +18,7 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GaussMethod.cpp">
+    <ClCompile Include="Pass_Method.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -26,12 +26,12 @@
     <Text Include="..\Matrix.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="GaussOutput.txt">
+    <Text Include="PassOutput.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GaussMethod.h">
+    <ClInclude Include="Pass_Method.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

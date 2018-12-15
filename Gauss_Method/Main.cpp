@@ -1,4 +1,4 @@
-#include "GaussMatrix.h"
+#include "GaussMethod.h"
 #include <fstream>
 #include <string>
 #define PATH_TO_MATRIX "../Matrix.txt"
@@ -10,10 +10,10 @@ int main() {
 	try {
 		ifstream fIn(PATH_TO_MATRIX);
 		ofstream fOut("GaussOutput.txt");
-		GaussMatrix gauss(MATRIX_DIM);
+		CMA::GaussMethod gauss(MATRIX_DIM);
 		fIn >> gauss;
 		fOut << gauss;
-		gauss.run(fOut);
+		gauss.run(fOut, true);
 	}
 	catch (invalid_argument ia) {
 		cerr << ia.what() << endl;

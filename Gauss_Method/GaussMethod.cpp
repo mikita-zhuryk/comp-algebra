@@ -1,19 +1,21 @@
-#include "GaussMatrix.h"
+#include "GaussMethod.h"
 #include <iomanip>
 
-GaussMatrix::GaussMatrix(size_t dim): Method(dim) {
+using namespace CMA;
+
+GaussMethod::GaussMethod(size_t dim): Method(dim) {
 	swapCount = 0;
 }
 
-GaussMatrix::~GaussMatrix() {}
+GaussMethod::~GaussMethod() {}
 
-void GaussMatrix::solve(ostream& out) {
+void GaussMethod::solve(ostream& out) {
 	makeUpperTriangular();
 	printUpperTriangular(out);
 	getSolution(b);
 }
 
-void GaussMatrix::swapRows(size_t k, size_t l) {
+void GaussMethod::swapRows(size_t k, size_t l) {
 	if (k != l) {
 		swap(A[k], A[l]);
 		swap(b[k], b[l]);
@@ -22,7 +24,7 @@ void GaussMatrix::swapRows(size_t k, size_t l) {
 	}
 }
 
-size_t GaussMatrix::findMaxInRows(UINT step) {
+size_t GaussMethod::findMaxInRows(UINT step) {
 	size_t max_index = step;
 	for (size_t i = step + 1; i < n; ++i) {
 		if (abs(A[i][step]) > abs(A[max_index][step])) {
@@ -32,7 +34,7 @@ size_t GaussMatrix::findMaxInRows(UINT step) {
 	return max_index;
 }
 
-void GaussMatrix::makeUpperTriangular() {
+void GaussMethod::makeUpperTriangular() {
 	for (size_t k = 0; k < n; ++k) {
 		swapRows(k, findMaxInRows(k));
 		b[k] /= A[k][k];
@@ -54,7 +56,7 @@ void GaussMatrix::makeUpperTriangular() {
 	}
 }
 
-void GaussMatrix::printUpperTriangular(ostream& out) {
+void GaussMethod::printUpperTriangular(ostream& out) {
 	if (!out) {
 		throw invalid_argument("Bad output stream in printUpperTriangular(ostream&).");
 	}
@@ -67,7 +69,7 @@ void GaussMatrix::printUpperTriangular(ostream& out) {
 	out << endl;
 }
 
-void GaussMatrix::getSolution(Vector<double>& b) {
+void GaussMethod::getSolution(Vector<double>& b) {
 	for (int i = n - 1; i >= 0; --i) {
 		x[i] = b[i];
 		for (size_t j = n - 1; j > i; --j) {
@@ -76,14 +78,14 @@ void GaussMatrix::getSolution(Vector<double>& b) {
 	}
 }
 
-double GaussMatrix::determinant() {
+double GaussMethod::determinant() {
 	for (size_t i = 0; i < n; ++i) {
 		detA *= pivot[i];
 	}
 	return ((swapCount % 2) ? -detA : detA);
 }
 
-void GaussMatrix::findInverse() {
+void GaussMethod::findInverse() {
 	Vector<double> temp(n, 0);
 	for (size_t k = 0; k < n; ++k) {
 		for (size_t j = 0; j < n; ++j) {

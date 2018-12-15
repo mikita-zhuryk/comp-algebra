@@ -15,24 +15,24 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Reflections.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Reflections.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GaussMethod.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <Text Include="ReflOutput.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
     <Text Include="..\Matrix.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="GaussOutput.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="GaussMethod.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

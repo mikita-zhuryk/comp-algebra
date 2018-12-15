@@ -15,10 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
+    <ClInclude Include="GaussSeidel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GaussSeidel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GaussMethod.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -26,13 +31,8 @@
     <Text Include="..\Matrix.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="GaussOutput.txt">
+    <Text Include="GaussSeidelOutput.txt">
       <Filter>Resource Files</Filter>
     </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="GaussMethod.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
