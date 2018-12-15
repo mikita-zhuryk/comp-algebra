@@ -1,6 +1,6 @@
 #include "Sqrt_Method.h"
 
-using namespace std;
+using namespace CMA;
 
 Sqrt_Method::Sqrt_Method(size_t dim): Method(dim) {
 	S = Matrix<double>(n, 0);
@@ -17,6 +17,7 @@ void Sqrt_Method::solve(ostream& out) {
 		}
 	}
 	b = temp;
+	out << "A^TA | A^Tb:" << endl << *this;
 	calculateS();
 	out << "S:" << endl << S << endl;
 	solveForY();
@@ -72,7 +73,7 @@ void Sqrt_Method::solveForX() {
 
 double Sqrt_Method::determinant() {
 	for (size_t i = 0; i < n; ++i) {
-		detA *= abs(S[i][i]);
+		detA *= pow(S[i][i], 2);
 	}
 	return detA;
 }
@@ -111,5 +112,7 @@ void Sqrt_Method::printInverseDeficiency(ostream& out) {
 	}
 	Matrix<double> AT = initial_A.transpose();
 	out << "R:" << endl;
-	out << Matrix<double>(n, 0) + 1 - AT * initial_A * inverse << endl;
+	Matrix<double> R = (Matrix<double>(n, 0) + 1) - AT * initial_A * inverse;
+	out << R << endl;
+	out << "||R|| = " << R.norm() << endl;
 }

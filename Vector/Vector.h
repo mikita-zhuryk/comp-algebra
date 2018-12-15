@@ -7,6 +7,9 @@
 using namespace std;
 
 template<class T>
+class Matrix;
+
+template<class T>
 class Vector {
 
 protected:
@@ -19,6 +22,7 @@ public:
 	Vector() : _vec({}), _size(0) {}
 	Vector(size_t);
 	Vector(size_t, const T&);
+	Vector(const vector<T>&);
 	Vector(T*, size_t);
 	Vector(const Vector&);
 	~Vector();
@@ -33,17 +37,23 @@ public:
 	Vector operator-(const T&) const;
 	Vector operator-(const Vector&) const;
 	Vector operator*(const T&) const;
-	T operator*(const Vector&) const;
+	Vector operator/(const T&) const;
+	T dot(const Vector&) const;
+	Matrix<T> matrixMult(const Vector&) const;
 	bool operator==(const Vector&) const;
 	bool operator!=(const Vector&) const;
 	T& operator[](size_t);
 	Vector& operator=(const Vector&);
+	size_t size();
+
+	double norm() const;
 
 	template<class T>
 	friend ostream& operator<<(ostream&, const Vector<T>&);
 
 	template<class T>
 	friend istream& operator>>(istream&, Vector<T>&);
+
 };
 
 template<class T>
@@ -58,6 +68,15 @@ Vector<T>::Vector(size_t size, const T& obj) {
 	_vec.resize(_size);
 	for (size_t i = 0; i < _size; i++) {
 		_vec[i] = obj;
+	}
+}
+
+template<class T>
+Vector<T>::Vector(const vector<T>& vec) {
+	_size = vec.size();
+	_vec.resize(_size);
+	for (size_t i = 0; i < _size; ++i) {
+		_vec[i] = vec[i];
 	}
 }
 
@@ -174,7 +193,14 @@ Vector<T> Vector<T>::operator*(const T& c) const {
 }
 
 template<class T>
-T Vector<T>::operator*(const Vector<T>& obj) const {
+Vector<T> Vector<T>::operator/(const T& c) const {
+	Vector<T> temp(*this);
+	temp /= c;
+	return temp;
+}
+
+template<class T>
+T Vector<T>::dot(const Vector<T>& obj) const {
 	if (obj._size != _size) {
 		throw invalid_argument("Vector multiplication error. Different vector sizes.");
 	}
@@ -183,6 +209,20 @@ T Vector<T>::operator*(const Vector<T>& obj) const {
 		sum += _vec[i] * obj._vec[i];
 	}
 	return sum;
+}
+
+template<class T>
+Matrix<T> Vector<T>::matrixMult(const Vector<T>& obj) const {
+	if (obj._size != _size) {
+		throw invalid_argument("Vector multiplication error. Different vector sizes.");
+	}
+	Matrix<T> result(_size);
+	for (size_t i = 0; i < _size; ++i) {
+		for (size_t j = 0; j < _size; ++j) {
+			result[i][j] = _vec[i] * obj._vec[j];
+		}
+	}
+	return result;
 }
 
 template<class T>
@@ -221,6 +261,20 @@ Vector<T>& Vector<T>::operator=(const Vector<T>& obj) {
 		}
 	}
 	return *this;
+}
+
+template<class T>
+size_t Vector<T>::size() {
+	return _size;
+}
+
+template<class T>
+double Vector<T>::norm() const {
+	double sum = 0;
+	for (size_t i = 0; i < _size; ++i) {
+		sum += pow(_vec[i], 2);
+	}
+	return sqrt(sum);
 }
 
 template<class T>

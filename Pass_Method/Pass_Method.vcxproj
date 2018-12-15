@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{E4C631A7-8F0E-4BB5-BA81-CB5D7738BD14}</ProjectGuid>
-    <RootNamespace>GaussMethod</RootNamespace>
+    <ProjectGuid>{151A22B1-1037-4814-A0B0-921722F9BFBE}</ProjectGuid>
+    <RootNamespace>PassMethod</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -70,7 +70,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
@@ -78,7 +78,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
@@ -115,20 +115,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="GaussMethod.h" />
+    <ClInclude Include="Pass_Method.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GaussMethod.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Pass_Method.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Matrix.txt" />
-    <Text Include="GaussOutput.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Method\Method.vcxproj">
-      <Project>{0a58cea8-ee07-44d8-be4a-61a24053d1a6}</Project>
-    </ProjectReference>
+    <Text Include="PassOutput.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

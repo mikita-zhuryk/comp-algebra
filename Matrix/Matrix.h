@@ -33,12 +33,16 @@ public:
 	Matrix operator-(const Matrix&) const;
 	Matrix operator*(const T&) const;
 	Matrix operator*(Matrix&);
-	//Vector operator*(Vector&);
+	Vector<T> operator*(Vector<T>&);
 	Matrix transpose() const;
 	bool operator==(const Matrix&) const;
 	bool operator!=(const Matrix&) const;
 	Vector<T>& operator[](size_t);
 	Matrix& operator=(const Matrix&);
+
+	double norm();
+
+	static Matrix<T> identity(size_t, T);
 
 	template<class T>
 	friend ostream& operator<<(ostream&, const Matrix<T>&);
@@ -137,7 +141,7 @@ Matrix<T>& Matrix<T>::operator*=(Matrix<T>& obj) {
 	for (size_t i = 0; i < _n; ++i) {
 		row = _values[i];
 		for (size_t j = 0; j < _n; ++j) {
-			_values[i][j] = row * temp[j];
+			_values[i][j] = row.dot(temp[j]);
 		}
 	}
 	return *this;
@@ -185,16 +189,19 @@ Matrix<T> Matrix<T>::operator*(Matrix<T>& obj) {
 	return temp;
 }
 
-//template<class T>
-//Vector<T> Matrix<T>::operator*(Vector<T>& vec) {
-//	Vector<T> temp(n);
-//	for (size_t i = 0; i < n; ++i) {
-//		for (size_t j = 0; j < n; ++j) {
-//			temp[i] += _values[i][j] * vec[j];
-//		}
-//	}
-//	return temp;
-//}
+template<class T>
+Vector<T> Matrix<T>::operator*(Vector<T>& vec) {
+	if (_n != vec.size()) {
+		throw invalid_argument("Matrix multiplication error. Different matrix sizes.");
+	}
+	Vector<T> temp(_n, 0.0);
+	for (size_t i = 0; i < _n; ++i) {
+		for (size_t j = 0; j < _n; ++j) {
+			temp[i] += _values[i][j] * vec[j];
+		}
+	}
+	return temp;
+}
 
 template<class T>
 Matrix<T> Matrix<T>::transpose() const {
@@ -243,6 +250,22 @@ Matrix<T>& Matrix<T>::operator=(const Matrix& obj) {
 		}
 	}
 	return *this;
+}
+
+template<class T>
+double Matrix<T>::norm() {
+	double sum = 0;
+	for (size_t i = 0; i < _n; ++i) {
+		for (size_t j = 0; j < _n; ++j) {
+			sum += pow(_values[i][j], 2);
+		}
+	}
+	return sqrt(sum);
+}
+
+template<class T>
+Matrix<T> Matrix<T>::identity(size_t dim, T unit) {
+	return Matrix<T>(dim, 0) + unit;
 }
 
 template<class T>

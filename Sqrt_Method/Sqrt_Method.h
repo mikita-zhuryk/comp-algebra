@@ -4,24 +4,28 @@
 
 using namespace std;
 
-class Sqrt_Method: public Method {
+namespace CMA {
 
-	Matrix<double> S;
-	Vector<double> y;
+	class Sqrt_Method : public Method {
 
-public:
+		Matrix<double> S;
+		Vector<double> y;
 
-	Sqrt_Method(size_t);
+	public:
 
-private:
+		Sqrt_Method(size_t);
 
-	void solve(ostream&) override;
-	void calculateS();
-	void solveForY();
-	void solveForX();
-	double determinant() override;
-	void findInverse() override;
-	void printInverse(ostream& out) override;
-	void printInverseDeficiency(ostream&) override;
+	private:
 
-};
+		void solve(ostream&) override;
+		void calculateS();
+		void solveForY();
+		void solveForX();
+		double determinant() override;
+		void findInverse() override;
+		void printInverse(ostream& out) override;
+		void printInverseDeficiency(ostream&) override;
+
+	};
+
+}
