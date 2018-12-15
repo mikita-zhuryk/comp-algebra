@@ -3,11 +3,13 @@
 
 namespace CMA {
 
-	class GaussSeidel : public Method {
+	class GradientDescent : public Method {
+
+		const double accuracy;
 
 	public:
 
-		GaussSeidel(size_t);
+		GradientDescent(size_t, int);
 
 	private:
 
