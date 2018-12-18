@@ -270,9 +270,14 @@ Matrix<T> Matrix<T>::identity(size_t dim, T unit) {
 
 template<class T>
 ostream& operator<<(ostream& out, const Matrix<T>& obj) {
+	out << '[';
 	for (size_t i = 0; i < obj._n; ++i) {
-		out << obj._values[i] << endl;
+		out << obj._values[i];
+		if (i != obj._n - 1) {
+			out << ", " << endl;
+		}
 	}
+	out << ']' << endl;
 	return out;
 }
 

@@ -72,7 +72,7 @@ namespace CMA {
 			if (!out) {
 				throw invalid_argument("Bad output stream in printSolution(ostream&).");
 			}
-			out << "x = (" << x << ")" << endl;
+			out << "x:\n" << x << endl;
 			out << endl;
 		}
 
@@ -92,7 +92,7 @@ namespace CMA {
 				throw invalid_argument("Bad output stream in printDeficiency(ostream&).");
 			}
 			auto deficiency = calcDeficiency();
-			out << "r = (" << deficiency << ")" << endl;
+			out << "r:\n" << deficiency << endl;
 			out << "||r|| = " << deficiency.norm() << endl;
 			out << endl;
 		}
