@@ -41,6 +41,7 @@ public:
 	Matrix& operator=(const Matrix&);
 
 	double norm();
+	Matrix mPow(uint16_t);
 
 	static Matrix<T> identity(size_t, T);
 
@@ -261,6 +262,15 @@ double Matrix<T>::norm() {
 		}
 	}
 	return sqrt(sum);
+}
+
+template<class T>
+Matrix<T> Matrix<T>::mPow(uint16_t n) {
+	Matrix<T> temp(*this);
+	for (uint16_t i = 1; i < n; ++i) {
+		temp = temp * *this;
+	}
+	return temp;
 }
 
 template<class T>

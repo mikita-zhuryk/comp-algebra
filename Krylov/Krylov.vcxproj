@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{CFAC2BD8-1702-4CAE-BE24-B18DC6598253}</ProjectGuid>
-    <RootNamespace>Danilevsky</RootNamespace>
+    <ProjectGuid>{CD0E69D4-CAC2-4AF1-B9A5-B4F56C9C2A88}</ProjectGuid>
+    <RootNamespace>Krylov</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -115,15 +115,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Danilevsky.h" />
+    <ClInclude Include="Krylov.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Danilevsky.cpp" />
+    <ClCompile Include="Krylov.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\EigenMatrix.txt" />
-    <Text Include="DanilevskyOutput.txt" />
+    <Text Include="KrylovOutput.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

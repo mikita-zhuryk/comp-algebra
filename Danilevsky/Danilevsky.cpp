@@ -8,7 +8,7 @@ Danilevsky::Danilevsky(size_t dim): EigenMethod(dim) {
 	invS = Matrix<double>::identity(n, 1);
 }
 
-void Danilevsky::solve(ostream& out) {
+void Danilevsky::find(ostream& out) {
 	Frobenius();
 	collectPoly();
 	findEigenVectors();
@@ -34,6 +34,10 @@ void Danilevsky::collectPoly() {
 	for (size_t j = 0; j < n; ++j) {
 		eigenPolynomial[j + 1] = A[0][j] * pow(-1, n % 2);
 	}
+}
+
+Vector<double> Danilevsky::getPoly() {
+	return eigenPolynomial;
 }
 
 void Danilevsky::findEigenVectors() {

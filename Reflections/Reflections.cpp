@@ -4,6 +4,8 @@ using namespace CMA;
 
 Reflections::Reflections(size_t dim) : Method(dim) {}
 
+Reflections::Reflections(Matrix<double> M, Vector<double> b) : Method(M, b) {}
+
 void Reflections::solve(ostream& out) {
 	Matrix<double> V;
 	for (size_t i = 0; i < n - 1; ++i) {
