@@ -44,18 +44,18 @@ Vector<double> Krylov::findEigenVec(double v) {
 	Vector<double> beta(n, 0);
 	beta[0] = 1;
 	for (size_t i = 1; i < n; ++i) {
-		beta[i] = v * beta[i - 1] - eigenPolynomial[i];
+		beta[i] = v * beta[i - 1] + eigenPolynomial[i];
 	}
-	cout << beta << endl;
-	Vector<double> eigen(CMatrix.transpose()[0] * beta[0]);
-	for (size_t i = 1; i < n; ++i) {
-		eigen += CMatrix.transpose()[i] * beta[i];
+	auto CT = CMatrix.transpose();
+	Vector<double> eigen(n, 0);
+	for (size_t i = 0; i < n; ++i) {
+		eigen += CT[i] * beta[i];
 	}
 	return eigen / eigen.norm();
 }
 
 void Krylov::printDeficiency(ostream& out) {
-	CMA::Danilevsky dan(5);
+	CMA::Danilevsky dan(n);
 	ifstream fIn("../EigenMatrix.txt");
 	fIn >> dan;
 	dan.run(cout);
