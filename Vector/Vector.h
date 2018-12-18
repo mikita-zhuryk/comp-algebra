@@ -279,10 +279,14 @@ double Vector<T>::norm() const {
 
 template<class T>
 ostream& operator<<(ostream& out, const Vector<T>& obj) {
-	for (size_t i = 0; i < obj._size - 1; i++) {
-		out << setw(OUTPUT_WIDTH) << obj._vec[i] << ' ';
+	out << '[';
+	for (size_t i = 0; i < obj._size; ++i) {
+		out << setw(OUTPUT_WIDTH) << obj._vec[i];
+		if (i != obj._size - 1) {
+			out << ", ";
+		}
 	}
-	out << setw(OUTPUT_WIDTH) << obj._vec[obj._size - 1];
+	out << ']';
 	return out;
 }
 

@@ -28,14 +28,6 @@ void SimpleIteration::buildBg() {
 	auto ATA = A.transpose() * A;
 	B = Matrix<double>::identity(n, 1) - ATA * (1.0 / ATA.norm());
 	g = A.transpose() * b * (1.0 / ATA.norm());
-	/*B = A;
-	g = b;
-	for (size_t i = 0; i < n; ++i) {
-		g[i] /= A[i][i];
-		B[i] /= A[i][i];
-		B[i][i] = 0;
-	}
-	B *= -1;*/
 }
 
 double SimpleIteration::determinant() {
