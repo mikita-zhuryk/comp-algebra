@@ -45,13 +45,13 @@ namespace CMA {
 		void run(ostream& out, bool findInv = false) {
 			out.setf(ios_base::fixed, ios_base::floatfield);
 			out.precision(DECIMAL_PRECISION);
-			solve(out);
+			find(out);
 			printSolution(out);
-			out << "Eigenvalues deficiency:\n" << calcValDeficiency() << endl;
+			out.setf(ios::scientific, ios_base::floatfield);
+			printDeficiency(out);
 			printVecDeficiency(out);
+			out.setf(ios::fixed, ios_base::floatfield);
 		}
-
-		virtual void solve(ostream&) = 0;
 
 		friend istream& operator>>(istream& in, EigenMethod& obj) {
 			if (!in) {
@@ -84,6 +84,8 @@ namespace CMA {
 
 	protected:
 
+		virtual void find(ostream&) = 0;
+
 		virtual void printSolution(ostream& out) {
 			if (!out) {
 				throw invalid_argument("Bad output stream in printSolution(ostream&).");
@@ -98,12 +100,12 @@ namespace CMA {
 			out << endl;
 		}
 
-		Vector<double> calcValDeficiency() {
+		virtual void printDeficiency(ostream& out) {
 			Vector<double> def(n);
 			for (size_t i = 0; i < n; ++i) {
 				def[i] = singleValDeficiency(eigenValues[i]);
 			}
-			return def;
+			out << "Eigenvalues deficiency:\n" << def << endl;
 		}
 
 		double singleValDeficiency(double v) {
@@ -114,7 +116,7 @@ namespace CMA {
 			return result;
 		}
 
-		list<Vector<double>> printVecDeficiency(ostream& out) {
+		virtual void printVecDeficiency(ostream& out) {
 			list<Vector<double>> def;
 			size_t i = 0;
 			for (auto it = eigenVectors.begin(); it != eigenVectors.end(); ++it) {
@@ -127,7 +129,6 @@ namespace CMA {
 				out << i << ": " << (*it).norm() << endl;
 				++i;
 			}
-			return def;
 		}
 
 	};

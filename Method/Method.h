@@ -43,6 +43,18 @@ namespace CMA {
 			detA = 1;
 		}
 
+		Method(Matrix<double> m, Vector<double> b) {
+			setDimensions(b.size());
+			A = m;
+			initial_A = m;
+			inverse = Matrix<double>(n, 0);
+			inverse += 1;
+			this->b = b;
+			initial_b = b;
+			x = Vector<double>(n, 0);
+			detA = 1;
+		}
+
 		~Method() {}
 
 		void run(ostream& out, bool findInv = false) {
@@ -61,6 +73,43 @@ namespace CMA {
 				printInverseDeficiency(out);
 			}
 		}
+
+		Vector<double> getX() {
+			return x;
+		}
+
+		friend istream& operator>>(istream& in, Method& obj) {
+			if (!in) {
+				throw invalid_argument("Bad input stream in operator>>(istream&, Method&).");
+			}
+			in.peek();
+			if (in.eof()) {
+				throw invalid_argument("Empty input file in operator>>(istream&, Method&).");
+			}
+			for (size_t i = 0; i < obj.n; ++i) {
+				for (size_t j = 0; j < obj.n; ++j) {
+					in >> obj.A[i][j];
+					obj.initial_A[i][j] = obj.A[i][j];
+				}
+				in >> obj.b[i];
+				obj.initial_b[i] = obj.b[i];
+			}
+			return in;
+		}
+
+		friend ostream& operator<<(ostream& out, Method& obj) {
+			if (!out) {
+				throw invalid_argument("Bad output stream in operator<<(ostream&, Method&).");
+			}
+			for (size_t i = 0; i < obj.n; ++i) {
+				out << obj.A[i] << " ";
+				out << setw(OUTPUT_WIDTH) << obj.b[i] << endl;
+			}
+			out << endl;
+			return out;
+		}
+
+	private:
 
 		virtual void solve(ostream&) = 0;
 
@@ -115,37 +164,6 @@ namespace CMA {
 			Matrix<double> R = (Matrix<double>(n, 0) + 1) - inverse * initial_A;
 			out << R << endl;
 			out << "||R|| = " << R.norm() << endl;
-		}
-
-		friend istream& operator>>(istream& in, Method& obj) {
-			if (!in) {
-				throw invalid_argument("Bad input stream in operator>>(istream&, Method&).");
-			}
-			in.peek();
-			if (in.eof()) {
-				throw invalid_argument("Empty input file in operator>>(istream&, Method&).");
-			}
-			for (size_t i = 0; i < obj.n; ++i) {
-				for (size_t j = 0; j < obj.n; ++j) {
-					in >> obj.A[i][j];
-					obj.initial_A[i][j] = obj.A[i][j];
-				}
-				in >> obj.b[i];
-				obj.initial_b[i] = obj.b[i];
-			}
-			return in;
-		}
-
-		friend ostream& operator<<(ostream& out, Method& obj) {
-			if (!out) {
-				throw invalid_argument("Bad output stream in operator<<(ostream&, Method&).");
-			}
-			for (size_t i = 0; i < obj.n; ++i) {
-				out << obj.A[i] << " ";
-				out << setw(OUTPUT_WIDTH) << obj.b[i] << endl;
-			}
-			out << endl;
-			return out;
 		}
 
 	};

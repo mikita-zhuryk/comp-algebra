@@ -31,12 +31,14 @@ public:
 	Vector& operator-=(const T&);
 	Vector& operator-=(const Vector&);
 	Vector& operator*=(const T&);
+	Vector& operator*=(const Matrix<T>&);
 	Vector& operator/=(const T&);
 	Vector operator+(const T&) const;
 	Vector operator+(const Vector&) const;
 	Vector operator-(const T&) const;
 	Vector operator-(const Vector&) const;
 	Vector operator*(const T&) const;
+	Vector operator*(const Matrix<T>&) const;
 	Vector operator/(const T&) const;
 	T dot(const Vector&) const;
 	Matrix<T> matrixMult(const Vector&) const;
@@ -149,6 +151,15 @@ Vector<T>& Vector<T>::operator*=(const T& c) {
 }
 
 template<class T>
+Vector<T>& Vector<T>::operator*=(const Matrix<T>& m) {
+	auto temp = m.transpose();
+	for (size_t i = 0; i < _size; ++i) {
+		_vec[i] = (*this).dot(temp[i]);
+	}
+	return *this;
+}
+
+template<class T>
 Vector<T>& Vector<T>::operator/=(const T& c) {
 	for (size_t i = 0; i < _size; ++i) {
 		_vec[i] /= c;
@@ -189,6 +200,13 @@ template<class T>
 Vector<T> Vector<T>::operator*(const T& c) const {
 	Vector<T> temp(*this);
 	temp *= c;
+	return temp;
+}
+
+template<class T>
+Vector<T> Vector<T>::operator*(const Matrix<T>& m) const {
+	Vector<T> temp(*this);
+	temp *= m;
 	return temp;
 }
 

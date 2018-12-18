@@ -15,12 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Danilevsky.h">
+    <ClInclude Include="Krylov.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Danilevsky.cpp">
+    <ClCompile Include="Krylov.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
@@ -31,7 +31,7 @@
     <Text Include="..\EigenMatrix.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="DanilevskyOutput.txt">
+    <Text Include="KrylovOutput.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

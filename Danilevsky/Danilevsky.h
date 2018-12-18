@@ -11,10 +11,11 @@ namespace CMA {
 	public:
 		
 		Danilevsky(size_t);
+		Vector<double> getPoly();
 
 	private:
 
-		void solve(ostream&) override;
+		void find(ostream&) override;
 		void Frobenius();
 		void collectPoly();
 		void findEigenVectors();

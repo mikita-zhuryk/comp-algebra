@@ -13,6 +13,7 @@ namespace CMA {
 	public:
 
 		Reflections(size_t);
+		Reflections(Matrix<double>, Vector<double>);
 
 	private:
 
