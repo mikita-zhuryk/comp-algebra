@@ -12,7 +12,7 @@ int main() {
 		CMA::Sqrt_Method sqrt(MATRIX_DIM);
 		fIn >> sqrt;
 		fOut << sqrt;
-		sqrt.run(fOut, true);
+		sqrt.run(fOut, true, true);
 	}
 	catch (invalid_argument ia) {
 		cerr << ia.what() << endl;

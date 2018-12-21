@@ -12,7 +12,7 @@ int main() {
 		CMA::SimpleIteration sit(MATRIX_DIM, -5);
 		fIn >> sit;
 		fOut << sit;
-		sit.run(fOut);
+		sit.run(fOut, false);
 	}
 	catch (invalid_argument ia) {
 		cerr << ia.what() << endl;

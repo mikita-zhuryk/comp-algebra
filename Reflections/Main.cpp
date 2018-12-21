@@ -12,7 +12,7 @@ int main() {
 		CMA::Reflections refl(MATRIX_DIM);
 		fIn >> refl;
 		fOut << refl;
-		refl.run(fOut);
+		refl.run(fOut, true, false);
 	}
 	catch (invalid_argument ia) {
 		cerr << ia.what() << endl;

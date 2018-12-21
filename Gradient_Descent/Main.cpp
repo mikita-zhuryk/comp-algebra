@@ -12,7 +12,7 @@ int main() {
 		CMA::GradientDescent grad(MATRIX_DIM, -5);
 		fIn >> grad;
 		fOut << grad;
-		grad.run(fOut);
+		grad.run(fOut, false);
 	}
 	catch (invalid_argument ia) {
 		cerr << ia.what() << endl;

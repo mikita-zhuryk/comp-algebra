@@ -49,6 +49,7 @@ public:
 	size_t size();
 
 	double norm() const;
+	double firstNorm() const;
 
 	template<class T>
 	friend ostream& operator<<(ostream&, const Vector<T>&);
@@ -293,6 +294,17 @@ double Vector<T>::norm() const {
 		sum += pow(_vec[i], 2);
 	}
 	return sqrt(sum);
+}
+
+template<class T>
+double Vector<T>::firstNorm() const {
+	double max = 0;
+	for (size_t i = 0; i < _size; ++i) {
+		if (_vec[i] > max) {
+			max = _vec[i];
+		}
+	}
+	return max;
 }
 
 template<class T>

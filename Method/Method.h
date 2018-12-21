@@ -57,7 +57,7 @@ namespace CMA {
 
 		~Method() {}
 
-		void run(ostream& out, bool findInv = false) {
+		void run(ostream& out, bool findDet = false, bool findInv = false) {
 			out.setf(ios_base::fixed, ios_base::floatfield);
 			out.precision(DECIMAL_PRECISION);
 			solve(out);
@@ -65,7 +65,9 @@ namespace CMA {
 			out.setf(ios_base::scientific, ios_base::floatfield);
 			printDeficiency(out);
 			out.setf(ios_base::fixed, ios_base::floatfield);
-			out << "det = " << determinant() << endl << endl;
+			if (findDet) {
+				out << "det = " << determinant() << endl << endl;
+			}
 			if (findInv) {
 				findInverse();
 				printInverse(out);
@@ -76,6 +78,35 @@ namespace CMA {
 
 		Vector<double> getX() {
 			return x;
+		}
+
+		void printSolution(ostream& out) {
+			if (!out) {
+				throw invalid_argument("Bad output stream in printSolution(ostream&).");
+			}
+			out << "x:\n" << x << endl;
+			out << endl;
+		}
+
+		Vector<double> calcDeficiency() {
+			Vector<double> deficiency(n);
+			for (size_t i = 0; i < n; ++i) {
+				deficiency[i] = -initial_b[i];
+				for (size_t j = 0; j < n; ++j) {
+					deficiency[i] = deficiency[i] + initial_A[i][j] * x[j];
+				}
+			}
+			return deficiency;
+		}
+
+		void printDeficiency(ostream& out) {
+			if (!out) {
+				throw invalid_argument("Bad output stream in printDeficiency(ostream&).");
+			}
+			auto deficiency = calcDeficiency();
+			out << "r:\n" << deficiency << endl;
+			out << "||r|| = " << deficiency.norm() << endl;
+			out << endl;
 		}
 
 		friend istream& operator>>(istream& in, Method& obj) {
@@ -115,35 +146,6 @@ namespace CMA {
 
 		virtual void findInverse() {
 
-		}
-
-		void printSolution(ostream& out) {
-			if (!out) {
-				throw invalid_argument("Bad output stream in printSolution(ostream&).");
-			}
-			out << "x:\n" << x << endl;
-			out << endl;
-		}
-
-		Vector<double> calcDeficiency() {
-			Vector<double> deficiency(n);
-			for (size_t i = 0; i < n; ++i) {
-				deficiency[i] = -initial_b[i];
-				for (size_t j = 0; j < n; ++j) {
-					deficiency[i] = deficiency[i] + initial_A[i][j] * x[j];
-				}
-			}
-			return deficiency;
-		}
-
-		void printDeficiency(ostream& out) {
-			if (!out) {
-				throw invalid_argument("Bad output stream in printDeficiency(ostream&).");
-			}
-			auto deficiency = calcDeficiency();
-			out << "r:\n" << deficiency << endl;
-			out << "||r|| = " << deficiency.norm() << endl;
-			out << endl;
 		}
 
 		virtual double determinant() = 0;

@@ -23,9 +23,11 @@ void IterJacobi::buildDiag() {
 	double mu = 0;
 	Matrix<double> Ti;
 	size_t i, j;
+	size_t k = 1;
 	do {
 		i = max.first;
 		j = max.second;
+		cout << k << endl << A[max.first][max.second] << endl;
 		Ti = Matrix<double>::identity(n, 1);
 		mu = 2 * A[i][j] / (A[i][i] - A[j][j]);
 		cos = sqrt((1 + 1 / sqrt(1 + pow(mu, 2))) / 2);
@@ -36,6 +38,8 @@ void IterJacobi::buildDiag() {
 		T *= Ti;
 		A = Ti.transpose() * A * Ti;
 		max = findMax();
+		cout << "cos - " << cos << " sin - " << sin << endl << "Ti:\n" << Ti << endl << "T:\n" << T << endl << "A:\n" << A << endl;
+		++k;
 	} while (abs(A[max.first][max.second]) > accuracy);
 }
 

@@ -6,6 +6,8 @@ GradientDescent::GradientDescent(size_t dim, int acc) : Method(dim), accuracy(po
 }
 
 void GradientDescent::solve(ostream& out) {
+	b = A.transpose() * b;
+	A = A.transpose() * A;
 	x = b;
 	int i = 1;
 	Vector<double> def;
@@ -18,10 +20,9 @@ void GradientDescent::solve(ostream& out) {
 		def = calcDeficiency();
 		t = def.dot(def) / (A * def).dot(def);
 		temp = x - def * t;
-		out << i << " iteration:\nDeficiency:\n" << def << endl;
-		printSolution(out);
 		++i;
 	} while ((temp - x).norm() > accuracy);
+	out << "Number of iterations: " << i << endl << endl;
 }
 
 double GradientDescent::determinant() {

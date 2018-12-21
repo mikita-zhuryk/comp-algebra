@@ -5,6 +5,8 @@ using namespace CMA;
 Relaxation::Relaxation(size_t dim, double w, int acc) : Method(dim), omega(w), accuracy(pow(10, acc)) { }
 
 void Relaxation::solve(ostream& out) {
+	b = A.transpose() * b;
+	A = A.transpose() * A;
 	x = b;
 	int k = 1;
 	Vector<double> temp(n, 0);
@@ -21,10 +23,9 @@ void Relaxation::solve(ostream& out) {
 				temp[i] -= omega * x[j] * A[i][j] / A[i][i];
 			}
 		}
-		out << k << " iteration:\nDeficiency:\n" << calcDeficiency() << endl;
-		printSolution(out);
 		++k;
 	} while ((temp - x).norm() > accuracy);
+	out << "Number of iterations: " << k << endl << endl;
 }
 
 double Relaxation::determinant() {

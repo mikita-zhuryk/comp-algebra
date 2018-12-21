@@ -22,10 +22,9 @@ void GaussSeidel::solve(ostream& out) {
 			}
 			newX[i] /= A[i][i];
 		}
-		out << k << " iteration:\nDeficiency:\n" << calcDeficiency() << endl;
-		printSolution(out);
 		++k;
 	} while ((newX - x).norm() > accuracy);
+	out << "Number of iterations: " << k << endl << endl;
 }
 
 double GaussSeidel::determinant() {

@@ -14,7 +14,7 @@ int main() {
 		//CMA::PassMethod pass(MATRIX_DIM);
 		fIn >> pass;
 		fOut << pass;
-		pass.run(fOut);
+		pass.run(fOut, true);
 	}
 	catch (invalid_argument ia) {
 		cerr << ia.what() << endl;

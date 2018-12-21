@@ -13,7 +13,7 @@ int main() {
 		CMA::GaussMethod gauss(MATRIX_DIM);
 		fIn >> gauss;
 		fOut << gauss;
-		gauss.run(fOut, true);
+		gauss.run(fOut, true, true);
 	}
 	catch (invalid_argument ia) {
 		cerr << ia.what() << endl;

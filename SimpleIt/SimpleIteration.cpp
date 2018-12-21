@@ -12,16 +12,15 @@ void SimpleIteration::solve(ostream& out) {
 	x = b;
 	int k = 1;
 	Vector<double> temp(n, 0);
-	out << "B: " << endl << B << endl << "B norm: " << endl << B.norm() << endl << endl;
+	out << "B: " << endl << B << endl << "B norm: " << B.norm() << endl << endl;
 	do {
 		if (k != 1) {
 			x = temp;
 		}
 		temp = B * x + g;
-		out << k << " iteration:\nDeficiency:\n" << calcDeficiency() << endl;
-		printSolution(out);
 		++k;
 	} while ((temp - x).norm() > accuracy);
+	out << "Number of iterations: " << k << endl << endl;
 }
 
 void SimpleIteration::buildBg() {

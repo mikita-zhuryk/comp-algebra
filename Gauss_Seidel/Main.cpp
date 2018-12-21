@@ -12,7 +12,7 @@ int main() {
 		CMA::GaussSeidel gs(MATRIX_DIM, -5);
 		fIn >> gs;
 		fOut << gs;
-		gs.run(fOut);
+		gs.run(fOut, false);
 	}
 	catch (invalid_argument ia) {
 		cerr << ia.what() << endl;

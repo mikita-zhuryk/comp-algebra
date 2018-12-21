@@ -2,7 +2,6 @@
 #include "../Matrix/Matrix.h"
 #include "../Vector/Vector.h"
 #include <list>
-#pragma once
 #define DECIMAL_PRECISION 5
 
 using namespace std;

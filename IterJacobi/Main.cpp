@@ -9,7 +9,7 @@ int main() {
 	try {
 		ifstream fIn(PATH_TO_MATRIX);
 		ofstream fOut("IterJacobiOutput.txt");
-		CMA::IterJacobi ja(MATRIX_DIM, -8);
+		CMA::IterJacobi ja(MATRIX_DIM, -5);
 		fIn >> ja;
 		ja.run(fOut);
 	}
