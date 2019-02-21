@@ -5,6 +5,8 @@ using namespace CMA;
 GaussSeidel::GaussSeidel(size_t dim, int acc): Method(dim), accuracy(pow(10, acc)) { }
 
 void GaussSeidel::solve(ostream& out) {
+	b = A.transpose() * b;
+	A = A.transpose() * A;
 	x = b;
 	Vector<double> newX(n, 0);
 	int k = 1;

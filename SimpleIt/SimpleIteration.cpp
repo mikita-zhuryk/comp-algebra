@@ -9,7 +9,7 @@ SimpleIteration::SimpleIteration(size_t dim, int acc) : Method(dim), accuracy(po
 
 void SimpleIteration::solve(ostream& out) {
 	buildBg();
-	x = b;
+	x = A.transpose() * b;
 	int k = 1;
 	Vector<double> temp(n, 0);
 	out << "B: " << endl << B << endl << "B norm: " << B.norm() << endl << endl;

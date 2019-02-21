@@ -1,4 +1,6 @@
 #include "IterJacobi.h"
+#include "../Danilevsky/Danilevsky.cpp"
+#include <fstream>
 
 using namespace CMA;
 
@@ -8,15 +10,20 @@ IterJacobi::IterJacobi(size_t dim, int acc) : EigenMethod(dim) {
 }
 
 void IterJacobi::find(ostream& out) {
-	buildDiag();
+	buildDiag(out);
 	Matrix<double> temp = T.transpose();
 	for (size_t i = 0; i < n; ++i) {
 		eigenValues[i] = A[i][i];
 		eigenVectors.push_back(temp[i]);
 	}
+	CMA::Danilevsky dan(n);
+	ifstream fIn("../EigenMatrix.txt");
+	fIn >> dan;
+	dan.run(cout);
+	eigenPolynomial = dan.getPoly();
 }
 
-void IterJacobi::buildDiag() {
+void IterJacobi::buildDiag(ostream& out) {
 	pair<size_t, size_t> max = findMax();
 	double cos = 0;
 	double sin = 0;
@@ -27,7 +34,6 @@ void IterJacobi::buildDiag() {
 	do {
 		i = max.first;
 		j = max.second;
-		cout << k << endl << A[max.first][max.second] << endl;
 		Ti = Matrix<double>::identity(n, 1);
 		mu = 2 * A[i][j] / (A[i][i] - A[j][j]);
 		cos = sqrt((1 + 1 / sqrt(1 + pow(mu, 2))) / 2);
@@ -41,6 +47,7 @@ void IterJacobi::buildDiag() {
 		cout << "cos - " << cos << " sin - " << sin << endl << "Ti:\n" << Ti << endl << "T:\n" << T << endl << "A:\n" << A << endl;
 		++k;
 	} while (abs(A[max.first][max.second]) > accuracy);
+	out << "Number of iterations: " << k << endl;
 }
 
 pair<size_t, size_t> IterJacobi::findMax() {

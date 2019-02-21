@@ -16,7 +16,7 @@ namespace CMA {
 	private:
 
 		pair<size_t, size_t> findMax();
-		void buildDiag();
+		void buildDiag(ostream&);
 
 		void find(ostream&) override;
 

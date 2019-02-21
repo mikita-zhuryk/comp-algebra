@@ -9,7 +9,7 @@ int main() {
 	try {
 		ifstream fIn(PATH_TO_MATRIX);
 		ofstream fOut("RelaxationOutput.txt");
-		CMA::Relaxation relax(MATRIX_DIM, 0.9, -5);
+		CMA::Relaxation relax(MATRIX_DIM, 1.0, -5);
 		fIn >> relax;
 		fOut << relax;
 		relax.run(fOut);
@@ -23,6 +23,5 @@ int main() {
 	catch (...) {
 		cerr << "Unhandled exception." << endl;
 	}
-	system("pause");
 	return 0;
 }
